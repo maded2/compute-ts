@@ -1,9 +1,10 @@
 package internal
 
 type DerivedColumn struct {
-	Name        string
-	DependOn    []string
-	StartValues int
+	BaseColumn
+	DependOn        []string
+	StartValues     int
+	DependentOffset int
 }
 
 var _ Column = &DerivedColumn{}
