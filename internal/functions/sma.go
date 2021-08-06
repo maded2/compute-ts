@@ -22,6 +22,6 @@ func NewSimpleMovingAverage(dt *internal.DataTable, name string, lookback int, d
 func (col *SimpleMovingAverage) Exec() {
 	x := col.DT.GetColumn(col.DependOn[0])
 	if len(x) > col.StartValues {
-		col.DT.SetValue(col.Name, stat.Mean(x, nil))
+		col.DT.SetColValue(col.Name, stat.Mean(x, nil))
 	}
 }

@@ -7,7 +7,7 @@ type BaseColumn struct {
 
 var _ Column = &BaseColumn{}
 
-func NewValue(dt *DataTable, name string) *BaseColumn {
+func NewValueCol(dt *DataTable, name string) *BaseColumn {
 	col := &BaseColumn{}
 	col.DT = dt
 	col.Name = name

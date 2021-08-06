@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"math"
 	"sort"
 	"time"
 )
@@ -27,16 +28,15 @@ func (dt *DataTable) Init() {
 
 func (dt *DataTable) NewRow(timestamp time.Time) {
 	dt.timestamps = append(dt.timestamps, timestamp)
+	for _, colIdx := range dt.headings {
+		dt.table[colIdx] = append(dt.table[colIdx], math.NaN())
+	}
 }
 
-func (dt *DataTable) AddColumn(name string) {
-	dt.headings[name] = len(dt.table)
-	dt.table = append(dt.table, []float64{})
-}
-
-func (dt *DataTable) SetValue(name string, value float64) {
+func (dt *DataTable) SetColValue(name string, value float64) {
 	if colIdx, found := dt.headings[name]; found {
-		dt.table[colIdx] = append(dt.table[colIdx], value)
+		col := dt.table[colIdx]
+		col[len(col)-1] = value
 	}
 }
 
