@@ -1,4 +1,4 @@
-package internal
+package public
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -7,19 +7,18 @@ import (
 )
 
 func TestDataTable_AddColumn(t *testing.T) {
-	dt := &DataTable{}
-	dt.Init()
+	dt := NewDataTable()
 
-	NewValueCol(dt, "col1")
+	NewValueCol(dt, 1, "col1")
 	assert.Len(t, dt.table, 1)
 	assert.Len(t, dt.headings, 1)
 }
 
 func TestDataTable_AddRow(t *testing.T) {
-	dt := &DataTable{}
-	dt.Init()
+	dt := NewDataTable()
 
-	NewValueCol(dt, "col1")
+	NewValueCol(dt, 1, "col1")
+	dt.FinishRegistration()
 	for v := 1.0; v <= 10.0; v++ {
 		dt.NewRow(time.Now())
 		dt.SetColValue("col1", v)
@@ -28,11 +27,11 @@ func TestDataTable_AddRow(t *testing.T) {
 }
 
 func TestDataTable_UniformityTest(t *testing.T) {
-	dt := &DataTable{}
-	dt.Init()
+	dt := NewDataTable()
+	NewValueCol(dt, 1, "col1")
+	NewValueCol(dt, 2, "col2")
+	dt.FinishRegistration()
 
-	NewValueCol(dt, "col1")
-	NewValueCol(dt, "col2")
 	for v := 1.0; v <= 10.0; v++ {
 		dt.NewRow(time.Now())
 		dt.SetColValue("col1", v)

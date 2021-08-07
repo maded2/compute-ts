@@ -1,4 +1,4 @@
-package internal
+package public
 
 type DerivedColumn struct {
 	BaseColumn
