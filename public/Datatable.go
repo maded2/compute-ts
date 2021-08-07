@@ -1,6 +1,7 @@
 package public
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/graph/simple"
 	"gonum.org/v1/gonum/graph/topo"
 	"log"
@@ -39,19 +40,22 @@ func (dt *DataTable) FinishRegistration() (err error) {
 	for _, col := range dt.columns {
 		for _, parent := range col.Depends() {
 			if parentCol, found := nodeMap[parent]; found {
-				graph.SetEdge(simple.Edge{F: col, T: parentCol})
+				graph.SetEdge(simple.Edge{F: parentCol, T: col})
 			}
 		}
 	}
 	s := ""
 	if sortedNodes, err := topo.Sort(graph); err == nil {
+		offset := 0
 		for _, node := range sortedNodes {
 			col := node.(Column)
+			offset += col.MinimumValues()
+			col.SetStartValue(offset)
 			dt.sortedNodes = append(dt.sortedNodes, col)
 			if len(s) > 0 {
 				s += " -> "
 			}
-			s += col.GetName()
+			s += fmt.Sprintf("%s[%d]", col.GetName(), col.GetStartValue())
 		}
 		log.Println(s)
 	}

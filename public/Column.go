@@ -8,4 +8,6 @@ type Column interface {
 	Depends() []string
 	MinimumValues() int
 	Evaluate(dt *DataTable)
+	SetStartValue(offset int)
+	GetStartValue() int
 }

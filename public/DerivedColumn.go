@@ -14,5 +14,13 @@ func (col *DerivedColumn) Depends() []string {
 }
 
 func (col *DerivedColumn) MinimumValues() int {
+	return col.DependentOffset
+}
+
+func (col *DerivedColumn) SetStartValue(offset int) {
+	col.StartValues = offset
+}
+
+func (col *DerivedColumn) GetStartValue() int {
 	return col.StartValues
 }

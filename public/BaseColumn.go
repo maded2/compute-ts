@@ -29,6 +29,13 @@ func (col *BaseColumn) MinimumValues() int {
 	return 0
 }
 
+func (col *BaseColumn) SetStartValue(offset int) {
+}
+
 func (col *BaseColumn) Evaluate(dt *DataTable) {
 	return
+}
+
+func (col *BaseColumn) GetStartValue() int {
+	return 0
 }
