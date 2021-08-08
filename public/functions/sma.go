@@ -21,7 +21,7 @@ func NewSimpleMovingAverage(dt *public.DataTable, id int64, name string, lookbac
 
 func (col *SimpleMovingAverage) Evaluate(dt *public.DataTable) {
 	x := dt.GetColumn(col.DependOn[0])
-	if len(x) > col.StartValues {
-		dt.SetColValue(col.Name, stat.Mean(x, nil))
+	if len(x) >= col.StartValues {
+		dt.SetColValue(col.Name, stat.Mean(x[len(x)-col.DependentOffset:], nil))
 	}
 }

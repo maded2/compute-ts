@@ -16,7 +16,7 @@ func TestSma(t *testing.T) {
 	NewSimpleMovingAverage(dt, 6, "OpenCloseSma", 3, "OpenSma1", "CloseSma2")
 	dt.FinishRegistration()
 
-	for i := 1; i < 10; i++ {
+	for i := 1; i < 20; i++ {
 		dt.NewRow(time.Now())
 		dt.SetColValue("Open", float64(i))
 		dt.SetColValue("Close", float64(i))

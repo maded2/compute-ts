@@ -63,7 +63,7 @@ func (dt *DataTable) FinishRegistration() (err error) {
 }
 
 func (dt *DataTable) ComputeRow() {
-	i := len(dt.timestamps) - 1
+	i := len(dt.timestamps)
 	if i > 0 {
 		for _, col := range dt.sortedColumns {
 			if i >= col.GetStartValue() {
@@ -111,11 +111,11 @@ func (dt *DataTable) Dump() (s string) {
 	}
 	s += "\n"
 
-	for _, t := range dt.timestamps {
+	for y, t := range dt.timestamps {
 		line := t.Format("2006-01-02 15:04:05.000")
-		for i, col := range dt.columns {
+		for _, col := range dt.columns {
 			if idx, found := dt.headings[col.GetName()]; found {
-				line += fmt.Sprintf(",%f", dt.table[idx][i])
+				line += fmt.Sprintf(",%f", dt.table[idx][y])
 			}
 		}
 		s += line + "\n"
