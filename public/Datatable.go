@@ -10,11 +10,11 @@ import (
 )
 
 type DataTable struct {
-	columns     []Column
-	headings    map[string]int
-	timestamps  []time.Time
-	table       [][]float64
-	sortedNodes []Column
+	columns       []Column
+	headings      map[string]int
+	timestamps    []time.Time
+	table         [][]float64
+	sortedColumns []Column
 }
 
 func (dt *DataTable) RegisterColumn(col Column) {
@@ -51,7 +51,7 @@ func (dt *DataTable) FinishRegistration() (err error) {
 			col := node.(Column)
 			offset += col.MinimumValues()
 			col.SetStartValue(offset)
-			dt.sortedNodes = append(dt.sortedNodes, col)
+			dt.sortedColumns = append(dt.sortedColumns, col)
 			if len(s) > 0 {
 				s += " -> "
 			}
@@ -60,6 +60,17 @@ func (dt *DataTable) FinishRegistration() (err error) {
 		log.Println(s)
 	}
 	return
+}
+
+func (dt *DataTable) ComputeRow() {
+	i := len(dt.timestamps) - 1
+	if i > 0 {
+		for _, col := range dt.sortedColumns {
+			if i >= col.GetStartValue() {
+				col.Evaluate(dt)
+			}
+		}
+	}
 }
 
 func (dt *DataTable) NewRow(timestamp time.Time) {
@@ -91,4 +102,23 @@ func (dt *DataTable) GetColumn(name string) []float64 {
 	} else {
 		return nil
 	}
+}
+
+func (dt *DataTable) Dump() (s string) {
+	s = "Timestamp"
+	for _, col := range dt.columns {
+		s += fmt.Sprintf(",%s", col.GetName())
+	}
+	s += "\n"
+
+	for _, t := range dt.timestamps {
+		line := t.Format("2006-01-02 15:04:05.000")
+		for i, col := range dt.columns {
+			if idx, found := dt.headings[col.GetName()]; found {
+				line += fmt.Sprintf(",%f", dt.table[idx][i])
+			}
+		}
+		s += line + "\n"
+	}
+	return
 }
