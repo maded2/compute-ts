@@ -23,4 +23,6 @@ func TestSma(t *testing.T) {
 		dt.ComputeRow()
 	}
 	t.Log(dt.Dump())
+
+	t.Log(dt.Dot)
 }

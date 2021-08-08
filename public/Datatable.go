@@ -15,6 +15,7 @@ type DataTable struct {
 	timestamps    []time.Time
 	table         [][]float64
 	sortedColumns []Column
+	Dot           string
 }
 
 func (dt *DataTable) RegisterColumn(col Column) {
@@ -59,6 +60,16 @@ func (dt *DataTable) FinishRegistration() (err error) {
 		}
 		log.Println(s)
 	}
+
+	dt.Dot = "digraph ComputedTimeSeries {\n"
+
+	edges := graph.Edges()
+	for edges.Next() {
+		parentCol := edges.Edge().From().(Column)
+		col := edges.Edge().To().(Column)
+		dt.Dot += fmt.Sprintf("%s_%d -> %s_%d\n", parentCol.GetName(), parentCol.GetStartValue(), col.GetName(), col.GetStartValue())
+	}
+	dt.Dot += "}\n"
 	return
 }
 
