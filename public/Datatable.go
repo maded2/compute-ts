@@ -47,11 +47,9 @@ func (dt *DataTable) FinishRegistration() (err error) {
 	}
 	s := ""
 	if sortedNodes, err := topo.Sort(graph); err == nil {
-		offset := 0
 		for _, node := range sortedNodes {
 			col := node.(Column)
-			offset += col.MinimumValues()
-			col.SetStartValue(offset)
+			col.SetStartValue(dt.findMaxOffset(nodeMap, col) + col.MinimumValues())
 			dt.sortedColumns = append(dt.sortedColumns, col)
 			if len(s) > 0 {
 				s += " -> "
@@ -130,6 +128,17 @@ func (dt *DataTable) Dump() (s string) {
 			}
 		}
 		s += line + "\n"
+	}
+	return
+}
+
+func (dt *DataTable) findMaxOffset(nodeMap map[string]Column, col Column) (r int) {
+	for _, parent := range col.Depends() {
+		if node, found := nodeMap[parent]; found {
+			if node.GetStartValue() > r {
+				r = node.GetStartValue()
+			}
+		}
 	}
 	return
 }
