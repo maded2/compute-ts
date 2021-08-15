@@ -32,7 +32,7 @@ func (col *BaseColumn) MinimumValues() int {
 func (col *BaseColumn) SetStartValue(offset int) {
 }
 
-func (col *BaseColumn) Evaluate(dt *DataTable) {
+func (col *BaseColumn) Evaluate(dt *DataTable, rowIndex int, previousValues []float64) {
 	return
 }
 

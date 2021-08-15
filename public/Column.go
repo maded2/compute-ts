@@ -7,7 +7,7 @@ type Column interface {
 	GetName() string
 	Depends() []string
 	MinimumValues() int
-	Evaluate(dt *DataTable)
+	Evaluate(dt *DataTable, rowIndex int, previousValues []float64)
 	SetStartValue(offset int)
 	GetStartValue() int
 }

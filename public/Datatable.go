@@ -76,7 +76,7 @@ func (dt *DataTable) ComputeRow() {
 	if i > 0 {
 		for _, col := range dt.sortedColumns {
 			if i >= col.GetStartValue() {
-				col.Evaluate(dt)
+				col.Evaluate(dt, i, dt.table[dt.headings[col.GetName()]][col.GetStartValue():])
 			}
 		}
 	}
