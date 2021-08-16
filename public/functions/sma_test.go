@@ -8,12 +8,12 @@ import (
 
 func TestSma(t *testing.T) {
 	dt := public.NewDataTable()
-	public.NewValueCol(dt, 1, "Open")
-	public.NewValueCol(dt, 2, "Close")
-	NewSimpleMovingAverage(dt, 3, "CloseSma1", 3, "Close")
-	NewSimpleMovingAverage(dt, 4, "CloseSma2", 3, "CloseSma1")
-	NewSimpleMovingAverage(dt, 5, "OpenSma1", 3, "Open")
-	NewSimpleMovingAverage(dt, 6, "OpenCloseSma", 3, "OpenSma1", "CloseSma2")
+	public.NewValueCol(dt, "Open")
+	public.NewValueCol(dt, "Close")
+	NewSimpleMovingAverage(dt, "CloseSma1", 3, "Close")
+	NewSimpleMovingAverage(dt, "CloseSma2", 3, "CloseSma1")
+	NewSimpleMovingAverage(dt, "OpenSma1", 3, "Open")
+	NewSimpleMovingAverage(dt, "OpenCloseSma", 3, "OpenSma1", "CloseSma2")
 	dt.FinishRegistration()
 
 	for i := 1; i < 20; i++ {

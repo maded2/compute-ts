@@ -7,9 +7,9 @@ type BaseColumn struct {
 
 var _ Column = &BaseColumn{}
 
-func NewValueCol(dt *DataTable, id int64, name string) *BaseColumn {
-	col := &BaseColumn{Id: id, Name: name}
-	dt.RegisterColumn(col)
+func NewValueCol(dt *DataTable, name string) *BaseColumn {
+	col := &BaseColumn{Name: name}
+	col.Id = dt.RegisterColumn(col)
 	return col
 }
 

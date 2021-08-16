@@ -16,12 +16,16 @@ type DataTable struct {
 	table         [][]float64
 	sortedColumns []Column
 	Dot           string
+	idCount       int64
 }
 
-func (dt *DataTable) RegisterColumn(col Column) {
+func (dt *DataTable) RegisterColumn(col Column) (id int64) {
 	dt.headings[col.GetName()] = len(dt.table)
 	dt.table = append(dt.table, []float64{})
 	dt.columns = append(dt.columns, col)
+	dt.idCount++
+	id = dt.idCount
+	return
 }
 
 func NewDataTable() (dt *DataTable) {

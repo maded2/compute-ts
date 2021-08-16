@@ -9,13 +9,12 @@ type SimpleMovingAverage struct {
 	public.DerivedColumn
 }
 
-func NewSimpleMovingAverage(dt *public.DataTable, id int64, name string, lookback int, dependsOn ...string) *SimpleMovingAverage {
+func NewSimpleMovingAverage(dt *public.DataTable, name string, lookback int, dependsOn ...string) *SimpleMovingAverage {
 	col := &SimpleMovingAverage{}
-	col.Id = id
 	col.Name = name
 	col.DependOn = dependsOn
 	col.DependentOffset = lookback
-	dt.RegisterColumn(col)
+	col.Id = dt.RegisterColumn(col)
 	return col
 }
 
